@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Jamal Store</title>
+<title>Chatcartwith Jamal</title>
 </head>
 
 <body>
