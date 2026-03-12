@@ -22,9 +22,8 @@ Order on WhatsApp
 </html>
 
 
-                  <html>
-     <div class="card">
-
+                  
+                      </html>
 <img src="product.jpg">
 
 <h3>T-Shirt</h3>
