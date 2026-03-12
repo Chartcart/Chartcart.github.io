@@ -22,8 +22,18 @@ Order on WhatsApp
 </html>
 
 
-<html>
-<a href="https://wa.me/919876543210">
-<button>Order on WhatsApp</button>
+                  <html>
+     <div class="card">
+
+<img src="product.jpg">
+
+<h3>T-Shirt</h3>
+
+<p>₹499</p>
+
+<a href="https://wa.me/919931203143">
+<button class="buy-btn">Order Now</button>
 </a>
-</html>
+
+</div>             
+                      </html>  
