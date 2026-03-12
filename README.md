@@ -32,7 +32,5 @@ Order on WhatsApp
 
 <a href="https://wa.me/919931203143">
 <button class="buy-btn">Order Now</button>
-</a>
-
-</div>             
-                      </html>
+</a>            
+  
