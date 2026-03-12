@@ -20,3 +20,10 @@ Order on WhatsApp
 <html>
 <button>Buy Now</button>
 </html>
+
+
+<html>
+<a href="https://wa.me/919876543210">
+<button>Order on WhatsApp</button>
+</a>
+</html>
