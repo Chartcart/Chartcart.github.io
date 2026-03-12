@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 <head>
 <title>Chatcartwith Jamal</title>
@@ -36,20 +36,4 @@ Order on WhatsApp
 </a>
 
 </div>             
-                      </html>  
-
-       <css>
-       .buy-btn{
-background:#25D366;
-color:white;
-padding:12px 20px;
-border:none;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
-}
-
-.buy-btn:hover{
-background:#1ebe5d;
-}
-</css>
+                      </html>
