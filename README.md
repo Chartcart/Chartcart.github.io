@@ -23,7 +23,7 @@ Order on WhatsApp
 
 
                   
-                      </html>
+        
 <img src="product.jpg">
 
 <h3>T-Shirt</h3>
