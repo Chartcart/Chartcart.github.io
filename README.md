@@ -1,39 +1,3 @@
-
-<html>
-<head>
-<title>Chatcartwith Jamal</title>
-</head>
-
-<body>
-
-<h1>Welcome to Jamal Store</h1>
-
-<p>Order products directly on WhatsApp</p>
-
-<a href="https://wa.me/919931203143">
-Order on WhatsApp
-</a>
-
-</body>
-</html>
-
-<html>
-<button>Buy Now</button>
-</html>
-
-
-                  
-        
-<img src="product.jpg">
-
-<h3>T-Shirt</h3>
-
-<p>₹499</p>
-
-<a href="https://wa.me/919931203143">
-<button class="buy-btn">Order Now</button>
-</a>            
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,7 +50,7 @@ margin-top:40px;
 
 <a href="contact.html">Contact</a>
 
-<a href="https://wa.me/919931203143">Order on WhatsApp</a>
+<a href="https://wa.me/919876543210">Order on WhatsApp</a>
 
 </div>
 
@@ -96,4 +60,3 @@ margin-top:40px;
 
 </body>
 </html>
-  
