@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChartCart | Premium Store</title>
+    <style>
+        :root {
+            --primary: #25D366;
+            --dark: #222;
+            --light: #f4f4f4;
+        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--light); color: #333; }
+        
+        /* Navbar */
+        nav { background: var(--dark); padding: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 1000; }
+        nav a { color: white; text-decoration: none; font-weight: 600; padding: 8px 15px; border-radius: 5px; transition: 0.3s; }
+        nav a:hover { background: var(--primary); }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=1350&q=80'); 
+                height: 300px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: white; flex-direction: column; text-align: center; }
+        .hero h1 { font-size: 3rem; margin: 0; }
+
+        /* Product Grid */
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-10px); }
+        .product-img { width: 100%; height: 200px; background: #ddd; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .product-info { padding: 20px; text-align: center; }
+        .price { font-size: 1.5rem; color: var(--primary); font-weight: bold; }
+        
+        .buy-btn { display: inline-block; background: var(--primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 50px; margin-top: 15px; font-weight: bold; }
+        
+        footer { background: var(--dark); color: white; padding: 20px; text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="contact.html">Contact Us</a>
+    </nav>
+
+    <div class="hero">
+        <h1>ChartCart Store</h1>
+        <p>Best Quality Products at Wholesale Prices</p>
+    </div>
+
+    <div class="container">
+        <div class="product-card">
+            <div class="product-img"><img src="https://via.placeholder.com/250x200?text=T-Shirt" style="width:100%"></div>
+            <div class="product-info">
+                <h3>Premium Cotton T-Shirt</h3>
+                <p class="price">₹499</p>
+                <a href="https://wa.me/919876543210?text=I want to buy T-Shirt" class="buy-btn">Buy on WhatsApp</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img"><img src="https://via.placeholder.com/250x200?text=Watch" style="width:100%"></div>
+            <div class="product-info">
+                <h3>Smart Digital Watch</h3>
+                <p class="price">₹1,299</p>
+                <a href="https://wa.me/919876543210?text=I want to buy Watch" class="buy-btn">Buy on WhatsApp</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img"><img src="https://via.placeholder.com/250x200?text=Shoes" style="width:100%"></div>
+            <div class="product-info">
+                <h3>Running Sports Shoes</h3>
+                <p class="price">₹899</p>
+                <a href="https://wa.me/919876543210?text=I want to buy Shoes" class="buy-btn">Buy on WhatsApp</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ChartCart Store | Powered by WhatsApp</p>
+    </footer>
+
+</body>
+</html>
