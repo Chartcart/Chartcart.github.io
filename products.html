@@ -3,138 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chartcart | Official Store</title>
+    <title>Chartcart | Premium Fashion Store</title>
     <style>
-        :root { --primary: #2874f0; --orange: #fb641b; --text: #212121; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
-        body { background-color: #f1f3f6; color: var(--text); }
+        :root { --primary: #2874f0; --orange: #fb641b; --text: #212121; --light-bg: #f1f3f6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light-bg); color: var(--text); }
 
-        /* Navbar */
-        .navbar { background: var(--primary); padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .logo { color: white; font-size: 22px; font-weight: bold; font-style: italic; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: 500; }
+        /* Header */
+        .navbar { background: var(--primary); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .logo { color: white; font-size: 24px; font-weight: bold; letter-spacing: 1px; }
 
         /* Product Grid */
-        .container { max-width: 1200px; margin: 20px auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 15px; }
-        .product-card { background: white; border-radius: 4px; padding: 15px; text-align: center; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .product-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
-        .product-card img { width: 100%; height: 180px; object-fit: contain; margin-bottom: 10px; }
-        .product-name { font-size: 14px; font-weight: 500; height: 35px; overflow: hidden; margin-bottom: 5px; }
-        .price-row { margin: 10px 0; }
-        .current-price { font-size: 18px; font-weight: bold; }
-        .old-price { text-decoration: line-through; color: #878787; font-size: 14px; margin-left: 5px; }
-        .buy-now-btn { background: var(--orange); color: white; border: none; width: 100%; padding: 10px; font-weight: bold; border-radius: 2px; cursor: pointer; text-transform: uppercase; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .product-card { background: white; border-radius: 8px; padding: 10px; text-align: left; transition: 0.3s; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .product-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 5px; }
+        .brand-name { color: #878787; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-top: 5px; }
+        .p-name { font-size: 14px; margin: 3px 0; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .p-price { font-weight: bold; font-size: 16px; color: #212121; }
 
-        /* Modal Style */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: white; width: 95%; max-width: 380px; margin: 40px auto; border-radius: 8px; position: relative; overflow: hidden; animation: zoom 0.3s; }
-        .modal-header { background: var(--primary); color: white; padding: 15px; text-align: center; }
-        .modal-body { padding: 20px; text-align: center; }
-        .qr-container { border: 2px solid #eee; padding: 10px; width: 220px; margin: 0 auto 10px; position: relative; }
-        .qr-container img { width: 100%; }
-        .timer-box { background: #fff3e0; color: #e65100; padding: 5px; font-weight: bold; border-radius: 4px; margin-bottom: 10px; }
-        .wa-btn { background: #25D366; color: white; text-decoration: none; display: block; padding: 12px; border-radius: 4px; font-weight: bold; margin-top: 10px; }
-        .close-btn { position: absolute; right: 10px; top: 10px; color: white; font-size: 24px; cursor: pointer; }
-        
-        @keyframes zoom { from {transform: scale(0.8);} to {transform: scale(1);} }
+        /* Detail Overlay Modal */
+        .detail-modal { display: none; position: fixed; z-index: 2001; left: 0; top: 0; width: 100%; height: 100%; background: white; overflow-y: auto; padding: 20px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .close-detail { font-size: 30px; position: absolute; top: 10px; left: 15px; cursor: pointer; color: #333; }
+
+        .detail-container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1000px; margin: 40px auto; }
+        .detail-images { flex: 1; min-width: 300px; }
+        .main-img { width: 100%; border-radius: 10px; border: 1px solid #ddd; }
+        .thumb-row { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; }
+        .thumb { width: 60px; height: 60px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; object-fit: cover; }
+
+        .detail-info { flex: 1; min-width: 300px; }
+        .option-title { font-size: 14px; font-weight: bold; margin: 15px 0 8px; }
+        .size-box, .color-box { display: flex; gap: 10px; }
+        .size-btn, .color-btn { border: 1px solid #ddd; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-size: 14px; background: white; }
+        .size-btn.active, .color-btn.active { border-color: var(--primary); color: var(--primary); background: #f0f5ff; }
+        .color-btn { width: 30px; height: 30px; border-radius: 50%; padding: 0; }
+
+        .desc-text { font-size: 14px; color: #666; line-height: 1.6; margin: 10px 0; }
+        .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: white; padding: 15px; display: flex; gap: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+        .buy-now { background: var(--orange); color: white; flex: 1; border: none; padding: 15px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+
+        /* Payment Modal (Timer) */
+        .pay-modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+        .pay-content { background: white; width: 90%; max-width: 380px; margin: 50px auto; border-radius: 10px; text-align: center; padding: 20px; position: relative; }
+        .qr-box { border: 1px solid #eee; padding: 10px; width: 220px; margin: 15px auto; position: relative; }
+        .timer { color: #d32f2f; font-weight: bold; margin-bottom: 10px; }
+        .wa-btn { background: #25D366; color: white; text-decoration: none; display: block; padding: 12px; border-radius: 5px; font-weight: bold; margin-top: 15px; }
+
+        @media (max-width: 600px) { .container { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
     </style>
 </head>
 <body>
 
-    <div class="navbar">
-        <div class="logo">Chartcart</div>
-        <div class="nav-links"><a href="index.html">Home</a></div>
+    <div class="navbar"><div class="logo">Chartcart Store</div></div>
+
+    <div class="container" id="grid"></div>
+
+    <div id="detailModal" class="detail-modal">
+        <span class="close-detail" onclick="closeDetail()">&larr;</span>
+        <div class="detail-container">
+            <div class="detail-images">
+                <img id="mainImg" class="main-img" src="">
+                <div class="thumb-row" id="thumbRow"></div>
+            </div>
+            <div class="detail-info">
+                <h2 id="detName">Product Name</h2>
+                <p id="detPrice" style="font-size:24px; font-weight:bold; margin:10px 0;"></p>
+                <hr>
+                
+                <div class="option-title">SELECT SIZE</div>
+                <div class="size-box">
+                    <button class="size-btn active">M</button>
+                    <button class="size-btn">L</button>
+                    <button class="size-btn">XL</button>
+                    <button class="size-btn">XXL</button>
+                </div>
+
+                <div class="option-title">SELECT COLOR</div>
+                <div class="color-box">
+                    <button class="color-btn active" style="background:black;"></button>
+                    <button class="color-btn" style="background:navy;"></button>
+                    <button class="color-btn" style="background:grey;"></button>
+                </div>
+
+                <div class="option-title">PRODUCT DETAILS</div>
+                <p class="desc-text" id="detDesc"></p>
+                <ul style="font-size: 13px; color: #555; margin-left: 18px;">
+                    <li>100% Premium Material</li>
+                    <li>Breathable Fabric</li>
+                    <li>Easy Return Policy</li>
+                </ul>
+            </div>
+        </div>
+        <div class="sticky-footer">
+            <button class="buy-now" onclick="openPayment()">PROCEED TO CHECKOUT</button>
+        </div>
     </div>
 
-    <div class="container" id="productGrid">
-        </div>
-
-    <div id="payModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div class="modal-header">
-                <h3>Secure Payment</h3>
-                <div class="timer-box">Expires in: <span id="timer">05:00</span></div>
+    <div id="payModal" class="pay-modal">
+        <div class="pay-content">
+            <h3>Secure UPI Payment</h3>
+            <div class="timer" id="timer">05:00</div>
+            <div class="qr-box">
+                <img id="qrImg" src="" style="width:100%">
             </div>
-            <div class="modal-body">
-                <div class="qr-container" id="qrWrapper">
-                    <img id="qrImg" src="" alt="QR Code">
-                    <div id="expiryOverlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.9); flex-direction:column; justify-content:center; align-items:center;">
-                        <p style="color:red; font-weight:bold;">Expired!</p>
-                        <button onclick="refreshQR()" style="background:var(--primary); color:white; border:none; padding:5px 10px; cursor:pointer;">Refresh</button>
-                    </div>
-                </div>
-                <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">Total: <span id="finalPrice" style="color:#d32f2f;"></span></div>
-                <p style="font-size:12px; color:#666; margin-bottom:10px;">UPI ID: jamal0841417-1@okhdfcbank</p>
-                
-                <a id="waButton" href="#" class="wa-btn">Send Payment Screenshot</a>
-            </div>
+            <p style="font-size:14px;">Payable: <strong id="finalPrice"></strong></p>
+            <p style="font-size:11px; color:green; margin-top:5px;">UPI: jamal0841417-1@okhdfcbank</p>
+            <a id="waBtn" href="#" class="wa-btn">Send Screenshot to WhatsApp</a>
+            <button onclick="closePay()" style="margin-top:15px; border:none; background:none; color:red; cursor:pointer;">Cancel</button>
         </div>
     </div>
 
     <script>
-        // 10 Products Data
         const products = [
-            { name: "Noise ColorFit Smartwatch", price: 1499, old: 3999, img: "https://m.media-amazon.com/images/I/61SSVxTSs3L._SX679_.jpg" },
-            { name: "boAt Rockerz 450", price: 1299, old: 2990, img: "https://m.media-amazon.com/images/I/51waS+-OfxL._SX679_.jpg" },
-            { name: "Apple AirPods (Gen 2)", price: 9999, old: 12900, img: "https://m.media-amazon.com/images/I/618bb+06eyL._SX679_.jpg" },
-            { name: "Logitech Wireless Mouse", price: 599, old: 995, img: "https://m.media-amazon.com/images/I/516LU0H963L._SX679_.jpg" },
-            { name: "Mi Power Bank 20000mAh", price: 1899, old: 2499, img: "https://m.media-amazon.com/images/I/71lVwl3q-kL._SX679_.jpg" },
-            { name: "SanDisk 64GB Pendrive", price: 449, old: 950, img: "https://m.media-amazon.com/images/I/61DjwgS4cbL._SX679_.jpg" },
-            { name: "JBL Go 3 Speaker", price: 2499, old: 3999, img: "https://m.media-amazon.com/images/I/61-v8f8GfHL._SX679_.jpg" },
-            { name: "HP 64GB Pen Drive", price: 429, old: 1500, img: "https://m.media-amazon.com/images/I/61y8B6VN6iL._SX679_.jpg" },
-            { name: "Zebronics Keyboard Combo", price: 899, old: 1499, img: "https://m.media-amazon.com/images/I/71-0jRndI5L._SX679_.jpg" },
-            { name: "Fastrack Smartwatch", price: 1799, old: 4995, img: "https://m.media-amazon.com/images/I/61pU8Tj-S3L._SX679_.jpg" }
+            { id:1, name: "Premium Slim Fit Cotton Shirt", price: 899, desc: "100% Pure cotton, perfect for summer wear. Durable and stylish.", imgs: ["https://m.media-amazon.com/images/I/71oT7l9oYLL._SX679_.jpg", "https://m.media-amazon.com/images/I/71TUXG48+fL._SX679_.jpg", "https://m.media-amazon.com/images/I/81D7mGInPGL._SX679_.jpg"] },
+            { id:2, name: "Luxury Round Neck T-Shirt", price: 499, desc: "Soft breathable polyester blend. High quality print.", imgs: ["https://m.media-amazon.com/images/I/51p8K6Yy1VL._SX679_.jpg", "https://m.media-amazon.com/images/I/51r2X7yY8VL._SX679_.jpg"] },
+            { id:3, name: "Classic Blue Denim Jeans", price: 1299, desc: "High quality stretchable denim. Comfortable for all day.", imgs: ["https://m.media-amazon.com/images/I/616xmoXpXPL._SX679_.jpg", "https://m.media-amazon.com/images/I/61NfXpB1+pL._SX679_.jpg"] },
+            // Isi tarah 10 products add kar sakte hain
         ];
 
-        const grid = document.getElementById('productGrid');
+        let selectedProduct = null;
+        const grid = document.getElementById('grid');
+
+        // Render Grid
         products.forEach(p => {
             grid.innerHTML += `
-                <div class="product-card">
-                    <img src="${p.img}" alt="${p.name}">
-                    <div class="product-name">${p.name}</div>
-                    <div class="price-row">
-                        <span class="current-price">₹${p.price}</span>
-                        <span class="old-price">₹${p.old}</span>
-                    </div>
-                    <button class="buy-now-btn" onclick="openPayment(${p.price}, '${p.name}')">Buy Now</button>
+                <div class="product-card" onclick="showDetail(${p.id})">
+                    <img src="${p.imgs[0]}">
+                    <div class="brand-name">Chartcart Exclusive</div>
+                    <div class="p-name">${p.name}</div>
+                    <div class="p-price">₹${p.price}</div>
                 </div>
             `;
         });
 
-        let timerInterval;
-        function openPayment(amount, name) {
+        function showDetail(id) {
+            selectedProduct = products.find(x => x.id === id);
+            document.getElementById('mainImg').src = selectedProduct.imgs[0];
+            document.getElementById('detName').innerText = selectedProduct.name;
+            document.getElementById('detPrice').innerText = "₹" + selectedProduct.price;
+            document.getElementById('detDesc').innerText = selectedProduct.desc;
+            
+            const thumbRow = document.getElementById('thumbRow');
+            thumbRow.innerHTML = '';
+            selectedProduct.imgs.forEach(img => {
+                thumbRow.innerHTML += `<img class="thumb" src="${img}" onclick="document.getElementById('mainImg').src='${img}'">`;
+            });
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+
+        // Timer and Payment Logic
+        let timerInt;
+        function openPayment() {
+            const amount = selectedProduct.price;
             const upiId = "jamal0841417-1@okhdfcbank";
-            const myNum = "919931203143";
             const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${amount}&cu=INR`;
             
             document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
             document.getElementById('finalPrice').innerText = "₹" + amount;
-            document.getElementById('qrImg').style.filter = 'none';
-            document.getElementById('expiryOverlay').style.display = 'none';
             document.getElementById('payModal').style.display = 'block';
 
-            // WhatsApp link
-            const waMsg = encodeURIComponent(`Hello, I paid ₹${amount} for ${name}. Here is my screenshot.`);
-            document.getElementById('waButton').href = `https://wa.me/${myNum}?text=${waMsg}`;
+            const waMsg = encodeURIComponent(`I want to order ${selectedProduct.name}. Amount: ₹${amount}`);
+            document.getElementById('waBtn').href = `https://wa.me/919931203143?text=${waMsg}`;
 
-            // Timer logic
             let time = 300;
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                let min = Math.floor(time / 60);
-                let sec = time % 60;
-                document.getElementById('timer').innerText = `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
-                if (time-- <= 0) {
-                    clearInterval(timerInterval);
-                    document.getElementById('qrImg').style.filter = 'blur(5px)';
-                    document.getElementById('expiryOverlay').style.display = 'flex';
-                }
+            clearInterval(timerInt);
+            timerInt = setInterval(() => {
+                let m = Math.floor(time/60), s = time%60;
+                document.getElementById('timer').innerText = `${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
+                if(time-- <= 0) { clearInterval(timerInt); alert("Session Expired!"); closePay(); }
             }, 1000);
         }
 
-        function closeModal() { document.getElementById('payModal').style.display = 'none'; clearInterval(timerInterval); }
-        function refreshQR() { let p = document.getElementById('finalPrice').innerText.replace('₹',''); openPayment(p, 'Product'); }
+        function closePay() { document.getElementById('payModal').style.display='none'; clearInterval(timerInt); }
     </script>
 </body>
 </html>
