@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chartcart - Secure Checkout</title>
+    <title>Chartcart - Smart Checkout</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f1f3f6; padding-bottom: 50px; }
+        body { background-color: #f4f7f9; }
+        .navbar { background: #1a1a1a; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .nav-btn { color: white; text-decoration: none; padding: 8px 20px; margin: 0 5px; background: #333; border-radius: 5px; font-size: 14px; transition: 0.3s; }
+        .nav-btn:hover { background: #2ecc71; }
         
-        /* Navbar */
-        .navbar { background: #212121; padding: 12px; display: flex; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 100; }
-        .nav-btn { color: white; text-decoration: none; padding: 8px 15px; background: #333; border-radius: 4px; font-size: 14px; }
-        
-        /* Product Container */
-        .container { max-width: 1000px; margin: 20px auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: white; border-radius: 10px; padding: 20px; border: 1px solid #ddd; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; }
-        .price { font-size: 24px; font-weight: bold; color: #212121; margin-bottom: 15px; }
-        .buy-btn { width: 100%; background: #fb641b; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        .container { max-width: 1100px; margin: 30px auto; padding: 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #eee; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; border-radius: 8px; }
+        .price { font-size: 24px; font-weight: 800; color: #1a1a1a; margin: 10px 0; }
+        .buy-btn { width: 100%; background: #fb641b; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; letter-spacing: 1px; }
 
-        /* Payment Modal (Popup) */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: white; width: 90%; max-width: 400px; margin: 50px auto; border-radius: 15px; padding: 20px; text-align: center; position: relative; }
-        .close-btn { position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; }
+        /* Payment Modal */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+        .modal-content { background: white; width: 90%; max-width: 420px; margin: 60px auto; border-radius: 20px; padding: 25px; text-align: center; position: relative; animation: slideDown 0.4s ease; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-btn { position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; color: #888; }
         
-        .payment-icons { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
-        .payment-icons img { width: 40px; height: 40px; object-fit: contain; border-radius: 5px; }
+        .payment-icons { display: flex; justify-content: center; gap: 20px; margin: 20px 0; align-items: center; }
+        .payment-icons img { height: 35px; }
         
-        .qr-code { width: 200px; height: 200px; border: 5px solid #f1f1f1; margin: 15px auto; }
-        .qr-code img { width: 100%; height: 100%; }
+        .qr-box { background: #f9f9f9; width: 220px; height: 220px; margin: 15px auto; padding: 10px; border: 2px solid #2ecc71; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .qr-box img { width: 100%; height: 100%; }
         
-        .upi-id { background: #f9f9f9; padding: 10px; border-radius: 5px; font-weight: bold; color: #2ecc71; margin-bottom: 15px; border: 1px dashed #ccc; }
-        .wa-btn { background: #25D366; color: white; text-decoration: none; display: block; padding: 12px; border-radius: 5px; font-weight: bold; margin-top: 10px; }
+        .upi-id-tag { background: #e8f5e9; padding: 10px; border-radius: 8px; font-weight: bold; color: #2e7d32; margin-bottom: 20px; border: 1px dashed #2e7d32; font-size: 14px; word-break: break-all; }
+        .wa-btn { background: #25D366; color: white; text-decoration: none; display: block; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
     </style>
 </head>
 <body>
@@ -45,51 +45,71 @@
         <div class="card">
             <img src="https://via.placeholder.com/200" alt="Product">
             <h3>Premium Smart Watch</h3>
+            <p style="color:#777; font-size:13px;">Special Edition - OLED Display</p>
             <div class="price">₹1,499</div>
-            <button class="buy-btn" onclick="openPayment('1,499')">BUY NOW</button>
+            <button class="buy-btn" onclick="openPayment(1499, 'Smart Watch')">BUY NOW</button>
+        </div>
+
+        <div class="card">
+            <img src="https://via.placeholder.com/200" alt="Product">
+            <h3>Wireless Earbuds</h3>
+            <p style="color:#777; font-size:13px;">Deep Bass - 40H Playtime</p>
+            <div class="price">₹999</div>
+            <button class="buy-btn" onclick="openPayment(999, 'Wireless Earbuds')">BUY NOW</button>
         </div>
     </div>
 
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closePayment()">&times;</span>
-            <h3>Scan & Pay</h3>
-            <p style="color: #666; font-size: 14px;">Pay securely using any UPI App</p>
+            <h2 style="color:#1a1a1a;">Scan & Pay</h2>
+            <p style="color: #666; font-size: 14px; margin-top:5px;">Amount will be set automatically</p>
             
             <div class="payment-icons">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo.png" alt="UPI">
-                <img src="https://cdn.iconscout.com/icon/free/png-256/free-google-pay-logo-icon-download-in-svg-png-gif-file-formats--payment-gpay-brand-pack-logos-icons-2264571.png" alt="Gpay">
-                <img src="https://cdn.iconscout.com/icon/free/png-256/free-phonepe-logo-icon-download-in-svg-png-gif-file-formats--payment-brand-pack-logos-icons-2264567.png" alt="PhonePe">
+                <img src="https://download.logo.wine/logo/Google_Pay/Google_Pay-Logo.wine.png" alt="GPay">
+                <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" alt="PhonePe">
             </div>
 
-            <div class="qr-code">
-    <img src="IMG-20260316-WA0000.jpg" alt="QR Code">
-</div>
+            <div class="qr-box">
+                <img id="dynamic-qr" src="" alt="Loading QR...">
+            </div>
 
+            <div id="upiDisplay" class="upi-id-tag">UPI ID: jamal0841417-@okhdfcbank</div>
 
-            <div class="upi-id">UPI ID: jamal0841417-@okhdfcbank</div>
-
-            <p style="font-size: 12px; color: #888;">Amount to pay: <span id="payAmount" style="color:red; font-weight:bold;"></span></p>
+            <p style="font-size: 18px; color: #333; margin-bottom: 15px;">Payable Amount: <strong style="color:#d32f2f;" id="payAmount"></strong></p>
             
-            <a href="https://wa.me/919931203143?text=I have paid. Please confirm my order." class="wa-btn">Send Payment Screenshot</a>
+            <a id="waLink" href="#" class="wa-btn">Confirm Order on WhatsApp</a>
         </div>
     </div>
 
     <script>
-        function openPayment(amount) {
+        function openPayment(amount, productName) {
+            const upiId = "jamal0841417-@okhdfcbank"; // Aapki UPI ID
+            const myName = "Chartcart";
+            
+            // Ye hai Jadoo: UPI Link jo Amount khud load karega
+            const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(myName)}&am=${amount}&tn=${encodeURIComponent(productName)}&cu=INR`;
+            
+            // QR Code Generator API
+            const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+            
             document.getElementById('paymentModal').style.display = 'block';
             document.getElementById('payAmount').innerText = "₹" + amount;
+            document.getElementById('dynamic-qr').src = qrApi;
+            
+            // WhatsApp confirmation setup (9931203143)
+            const myPhone = "919931203143"; // <--- APNA NUMBER YAHAN LIKHEIN
+            const waMessage = `https://wa.me/${myPhone}?text=Hello, I have paid ₹${amount} for ${productName}. Please confirm my order.`;
+            document.getElementById('waLink').href = waMessage;
         }
 
         function closePayment() {
             document.getElementById('paymentModal').style.display = 'none';
         }
 
-        // Close modal if user clicks outside
         window.onclick = function(event) {
-            if (event.target == document.getElementById('paymentModal')) {
-                closePayment();
-            }
+            if (event.target == document.getElementById('paymentModal')) { closePayment(); }
         }
     </script>
 
