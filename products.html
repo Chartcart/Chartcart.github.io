@@ -82,36 +82,34 @@
             <a id="waLink" href="#" class="wa-btn">Confirm Order on WhatsApp</a>
         </div>
     </div>
-
     <script>
-        function openPayment(amount, productName) {
-            const upiId = "jamal0841417@okhdfcbank"; // Aapki UPI ID
-            const myName = "Chartcart";
-            
-            // Ye hai Jadoo: UPI Link jo Amount khud load karega
-            const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(myName)}&am=${amount}&tn=${encodeURIComponent(productName)}&cu=INR`;
-            
-            // QR Code Generator API
-            const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-            
-            document.getElementById('paymentModal').style.display = 'block';
-            document.getElementById('payAmount').innerText = "₹" + amount;
-            document.getElementById('dynamic-qr').src = qrApi;
-            
-            // WhatsApp confirmation setup (9931203143)
-            const myPhone = "919931203143"; // <--- APNA NUMBER YAHAN LIKHEIN
-            const waMessage = `https://wa.me/${myPhone}?text=Hello, I have paid ₹${amount} for ${productName}. Please confirm my order.`;
-            document.getElementById('waLink').href = waMessage;
-        }
+    function openPayment(amount, productName) {
+        // Maine dash hata kar ID sahi kar di hai
+        const upiId = "jamal0841417@okhdfcbank"; 
+        const myName = "Chartcart";
+        
+        const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(myName)}&am=${amount}&tn=${encodeURIComponent(productName)}&cu=INR`;
+        
+        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+        
+        document.getElementById('paymentModal').style.display = 'block';
+        document.getElementById('payAmount').innerText = "₹" + amount;
+        document.getElementById('dynamic-qr').src = qrApi;
+        
+        const myPhone = "919931203143"; 
+        const waMessage = `https://wa.me/${myPhone}?text=Hello, I have paid ₹${amount} for ${productName}. Please confirm my order.`;
+        document.getElementById('waLink').href = waMessage;
+    }
 
-        function closePayment() {
-            document.getElementById('paymentModal').style.display = 'none';
-        }
+    function closePayment() {
+        document.getElementById('paymentModal').style.display = 'none';
+    }
 
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('paymentModal')) { closePayment(); }
-        }
-    </script>
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('paymentModal')) { closePayment(); }
+    }
+</script>
+
 
 </body>
 </html>
