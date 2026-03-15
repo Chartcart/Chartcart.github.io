@@ -6,7 +6,7 @@
     <title>Chartcart | Official Store</title>
     <style>
         :root { --primary: #2874f0; --orange: #fb641b; --text: #212121; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
         body { background-color: #f1f3f6; color: var(--text); }
 
         /* Navbar */
@@ -16,129 +16,125 @@
 
         /* Product Grid */
         .container { max-width: 1200px; margin: 20px auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 15px; }
-        
-        .product-card { background: white; border-radius: 4px; padding: 15px; text-align: center; transition: 0.3s; position: relative; cursor: pointer; }
+        .product-card { background: white; border-radius: 4px; padding: 15px; text-align: center; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .product-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
-        
         .product-card img { width: 100%; height: 180px; object-fit: contain; margin-bottom: 10px; }
         .product-name { font-size: 14px; font-weight: 500; height: 35px; overflow: hidden; margin-bottom: 5px; }
-        .rating { color: #388e3c; background: #388e3c1a; padding: 2px 6px; border-radius: 3px; font-size: 12px; font-weight: bold; }
         .price-row { margin: 10px 0; }
         .current-price { font-size: 18px; font-weight: bold; }
         .old-price { text-decoration: line-through; color: #878787; font-size: 14px; margin-left: 5px; }
-        
-        .buy-now-btn { background: var(--orange); color: white; border: none; width: 100%; padding: 10px; font-weight: bold; border-radius: 2px; cursor: pointer; font-size: 14px; text-transform: uppercase; }
+        .buy-now-btn { background: var(--orange); color: white; border: none; width: 100%; padding: 10px; font-weight: bold; border-radius: 2px; cursor: pointer; text-transform: uppercase; }
 
-        /* Modern Payment Modal */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
-        .modal-content { background: white; width: 95%; max-width: 380px; margin: 50px auto; border-radius: 8px; padding: 0; position: relative; overflow: hidden; animation: zoom 0.3s; }
-        @keyframes zoom { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }
-        
+        /* Modal Style */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+        .modal-content { background: white; width: 95%; max-width: 380px; margin: 40px auto; border-radius: 8px; position: relative; overflow: hidden; animation: zoom 0.3s; }
         .modal-header { background: var(--primary); color: white; padding: 15px; text-align: center; }
         .modal-body { padding: 20px; text-align: center; }
-        .qr-container { border: 2px solid #e0e0e0; border-radius: 8px; padding: 10px; width: 220px; margin: 0 auto 15px; }
+        .qr-container { border: 2px solid #eee; padding: 10px; width: 220px; margin: 0 auto 10px; position: relative; }
         .qr-container img { width: 100%; }
+        .timer-box { background: #fff3e0; color: #e65100; padding: 5px; font-weight: bold; border-radius: 4px; margin-bottom: 10px; }
+        .wa-btn { background: #25D366; color: white; text-decoration: none; display: block; padding: 12px; border-radius: 4px; font-weight: bold; margin-top: 10px; }
+        .close-btn { position: absolute; right: 10px; top: 10px; color: white; font-size: 24px; cursor: pointer; }
         
-        .upi-details { background: #f9f9f9; padding: 10px; border-radius: 5px; border: 1px dashed #2874f0; margin-bottom: 15px; font-size: 13px; font-weight: bold; }
-        
-        .wa-confirm-btn { background: #25D366; color: white; text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 4px; font-weight: bold; gap: 8px; margin-top: 10px; }
-        .close-modal { position: absolute; right: 10px; top: 10px; color: white; font-size: 24px; cursor: pointer; }
-
-        @media (max-width: 600px) { .container { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
+        @keyframes zoom { from {transform: scale(0.8);} to {transform: scale(1);} }
     </style>
 </head>
 <body>
 
     <div class="navbar">
         <div class="logo">Chartcart</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="#">Cart</a>
+        <div class="nav-links"><a href="index.html">Home</a></div>
+    </div>
+
+    <div class="container" id="productGrid">
         </div>
-    </div>
-
-    <div class="container">
-        <script>
-            const products = [
-                { id: 1, name: "Noise ColorFit Smartwatch", price: 1499, old: 3999, img: "https://m.media-amazon.com/images/I/61SSVxTSs3L._SX679_.jpg" },
-                { id: 2, name: "boAt Rockerz 450 Bluetooth Headphones", price: 1299, old: 2990, img: "https://m.media-amazon.com/images/I/51waS+-OfxL._SX679_.jpg" },
-                { id: 3, name: "Apple AirPods (2nd Gen)", price: 9999, old: 12900, img: "https://m.media-amazon.com/images/I/618bb+06eyL._SX679_.jpg" },
-                { id: 4, name: "Logitech Wireless Mouse", price: 599, old: 995, img: "https://m.media-amazon.com/images/I/516LU0H963L._SX679_.jpg" },
-                { id: 5, name: "Mi Power Bank 3i 20000mAh", price: 1899, old: 2499, img: "https://m.media-amazon.com/images/I/71lVwl3q-kL._SX679_.jpg" },
-                { id: 6, name: "SanDisk 64GB Pendrive", price: 449, old: 950, img: "https://m.media-amazon.com/images/I/61DjwgS4cbL._SX679_.jpg" },
-                { id: 7, name: "JBL Go 3 Bluetooth Speaker", price: 2499, old: 3999, img: "https://m.media-amazon.com/images/I/61-v8f8GfHL._SX679_.jpg" },
-                { id: 8, name: "HP v236w 64GB USB 2.0 Pen Drive", price: 429, old: 1500, img: "https://m.media-amazon.com/images/I/61y8B6VN6iL._SX679_.jpg" },
-                { id: 9, name: "Zebronics Wireless Keyboard & Mouse", price: 899, old: 1499, img: "https://m.media-amazon.com/images/I/71-0jRndI5L._SX679_.jpg" },
-                { id: 10, name: "Fastrack Limitless Smartwatch", price: 1799, old: 4995, img: "https://m.media-amazon.com/images/I/61pU8Tj-S3L._SX679_.jpg" }
-            ];
-
-            const container = document.querySelector('.container');
-            products.forEach(p => {
-                container.innerHTML += `
-                    <div class="product-card">
-                        <img src="${p.img}" alt="${p.name}">
-                        <div class="product-name">${p.name}</div>
-                        <span class="rating">4.2 ★</span>
-                        <div class="price-row">
-                            <span class="current-price">₹${p.price.toLocaleString()}</span>
-                            <span class="old-price">₹${p.old.toLocaleString()}</span>
-                        </div>
-                        <button class="buy-now-btn" onclick="openPayment(${p.price}, '${p.name}')">Buy Now</button>
-                    </div>
-                `;
-            });
-        </script>
-    </div>
 
     <div id="payModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
             <div class="modal-header">
-                <h3>Secure Checkout</h3>
-                <p style="font-size: 12px; opacity: 0.9;">Payment will be verified instantly</p>
+                <h3>Secure Payment</h3>
+                <div class="timer-box">Expires in: <span id="timer">05:00</span></div>
             </div>
             <div class="modal-body">
-                <div class="qr-container">
-                    <img id="qrImg" src="" alt="Loading QR...">
+                <div class="qr-container" id="qrWrapper">
+                    <img id="qrImg" src="" alt="QR Code">
+                    <div id="expiryOverlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.9); flex-direction:column; justify-content:center; align-items:center;">
+                        <p style="color:red; font-weight:bold;">Expired!</p>
+                        <button onclick="refreshQR()" style="background:var(--primary); color:white; border:none; padding:5px 10px; cursor:pointer;">Refresh</button>
+                    </div>
                 </div>
-                <div class="upi-details" id="upiText">UPI: jamal0841417-1@okhdfcbank</div>
-                <div style="font-size: 20px; font-weight: bold; margin-bottom: 15px;">Pay: <span style="color:#d32f2f;" id="finalPrice"></span></div>
+                <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">Total: <span id="finalPrice" style="color:#d32f2f;"></span></div>
+                <p style="font-size:12px; color:#666; margin-bottom:10px;">UPI ID: jamal0841417-1@okhdfcbank</p>
                 
-                <p style="font-size: 12px; color: #666; margin-bottom: 10px;">Scan with GPay, PhonePe, or Paytm</p>
-                
-                <a id="waButton" href="#" class="wa-confirm-btn">
-                    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="20" style="filter:invert(1)">
-                    Send Payment Screenshot
-                </a>
+                <a id="waButton" href="#" class="wa-btn">Send Payment Screenshot</a>
             </div>
         </div>
     </div>
 
     <script>
-    function openPayment(amount, name) {
-        // Humne yahan hyphen ka computer code (%2D) use kiya hai taaki galti na ho
-        const part1 = "jamal0841417";
-        const hyphen = "-";
-        const part2 = "1@okhdfcbank";
-        const upiId = part1 + hyphen + part2; // Isse "-" pakka aayega
-        
-        const myNum = "919931203143";
-        
-        // Dynamic UPI Link
-        const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${amount}&cu=INR&tn=Order`;
-        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-        
-        document.getElementById('qrImg').src = qrApi;
-        document.getElementById('finalPrice').innerText = "₹" + amount.toLocaleString();
-        document.getElementById('payModal').style.display = 'block';
-        
-        // WhatsApp Link
-        const waMsg = `Hello Chartcart, I have paid ₹${amount} for ${name}.`;
-        document.getElementById('waButton').href = `https://wa.me/${myNum}?text=${encodeURIComponent(waMsg)}`;
-    }
+        // 10 Products Data
+        const products = [
+            { name: "Noise ColorFit Smartwatch", price: 1499, old: 3999, img: "https://m.media-amazon.com/images/I/61SSVxTSs3L._SX679_.jpg" },
+            { name: "boAt Rockerz 450", price: 1299, old: 2990, img: "https://m.media-amazon.com/images/I/51waS+-OfxL._SX679_.jpg" },
+            { name: "Apple AirPods (Gen 2)", price: 9999, old: 12900, img: "https://m.media-amazon.com/images/I/618bb+06eyL._SX679_.jpg" },
+            { name: "Logitech Wireless Mouse", price: 599, old: 995, img: "https://m.media-amazon.com/images/I/516LU0H963L._SX679_.jpg" },
+            { name: "Mi Power Bank 20000mAh", price: 1899, old: 2499, img: "https://m.media-amazon.com/images/I/71lVwl3q-kL._SX679_.jpg" },
+            { name: "SanDisk 64GB Pendrive", price: 449, old: 950, img: "https://m.media-amazon.com/images/I/61DjwgS4cbL._SX679_.jpg" },
+            { name: "JBL Go 3 Speaker", price: 2499, old: 3999, img: "https://m.media-amazon.com/images/I/61-v8f8GfHL._SX679_.jpg" },
+            { name: "HP 64GB Pen Drive", price: 429, old: 1500, img: "https://m.media-amazon.com/images/I/61y8B6VN6iL._SX679_.jpg" },
+            { name: "Zebronics Keyboard Combo", price: 899, old: 1499, img: "https://m.media-amazon.com/images/I/71-0jRndI5L._SX679_.jpg" },
+            { name: "Fastrack Smartwatch", price: 1799, old: 4995, img: "https://m.media-amazon.com/images/I/61pU8Tj-S3L._SX679_.jpg" }
+        ];
 
-    function closeModal() { document.getElementById('payModal').style.display = 'none'; }
-</script>
+        const grid = document.getElementById('productGrid');
+        products.forEach(p => {
+            grid.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="product-name">${p.name}</div>
+                    <div class="price-row">
+                        <span class="current-price">₹${p.price}</span>
+                        <span class="old-price">₹${p.old}</span>
+                    </div>
+                    <button class="buy-now-btn" onclick="openPayment(${p.price}, '${p.name}')">Buy Now</button>
+                </div>
+            `;
+        });
 
+        let timerInterval;
+        function openPayment(amount, name) {
+            const upiId = "jamal0841417-1@okhdfcbank";
+            const myNum = "919931203143";
+            const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${amount}&cu=INR`;
+            
+            document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+            document.getElementById('finalPrice').innerText = "₹" + amount;
+            document.getElementById('qrImg').style.filter = 'none';
+            document.getElementById('expiryOverlay').style.display = 'none';
+            document.getElementById('payModal').style.display = 'block';
+
+            // WhatsApp link
+            const waMsg = encodeURIComponent(`Hello, I paid ₹${amount} for ${name}. Here is my screenshot.`);
+            document.getElementById('waButton').href = `https://wa.me/${myNum}?text=${waMsg}`;
+
+            // Timer logic
+            let time = 300;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                let min = Math.floor(time / 60);
+                let sec = time % 60;
+                document.getElementById('timer').innerText = `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+                if (time-- <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('qrImg').style.filter = 'blur(5px)';
+                    document.getElementById('expiryOverlay').style.display = 'flex';
+                }
+            }, 1000);
+        }
+
+        function closeModal() { document.getElementById('payModal').style.display = 'none'; clearInterval(timerInterval); }
+        function refreshQR() { let p = document.getElementById('finalPrice').innerText.replace('₹',''); openPayment(p, 'Product'); }
+    </script>
 </body>
 </html>
