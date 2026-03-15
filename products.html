@@ -40,7 +40,7 @@
     <script>
         function openPayment(amount, productName) {
             // Dash (-) yahan se hata diya gaya hai
-            const upiId = "jamal0841417@okhdfcbank"; 
+            const upiId = "jamal0841417-1@okhdfcbank"; 
             const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${amount}&cu=INR`;
             const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
             
