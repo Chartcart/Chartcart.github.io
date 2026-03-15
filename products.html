@@ -3,170 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chartcart | Premium Fashion Store</title>
+    <title>Chartcart Premium Store</title>
     <style>
-        :root { --primary: #2874f0; --orange: #fb641b; --text: #212121; --light-bg: #f1f3f6; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text); }
+        :root { --primary: #2874f0; --orange: #fb641b; --text: #212121; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f1f3f6; padding-bottom: 80px; }
 
-        /* Header */
-        .navbar { background: var(--primary); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .logo { color: white; font-size: 24px; font-weight: bold; letter-spacing: 1px; }
+        /* Navbar */
+        .navbar { background: var(--primary); padding: 12px 5%; color: white; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Grid */
+        .container { max-width: 1200px; margin: 15px auto; padding: 0 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .p-card { background: white; border-radius: 4px; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; }
+        .p-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 4px; }
+        .p-card h3 { font-size: 14px; margin: 8px 0 4px; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .p-card .price { font-weight: bold; color: #000; }
 
-        /* Product Grid */
-        .container { max-width: 1200px; margin: 20px auto; padding: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .product-card { background: white; border-radius: 8px; padding: 10px; text-align: left; transition: 0.3s; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .product-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .product-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 5px; }
-        .brand-name { color: #878787; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-top: 5px; }
-        .p-name { font-size: 14px; margin: 3px 0; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .p-price { font-weight: bold; font-size: 16px; color: #212121; }
+        /* Detail Page Overlay */
+        .detail-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; overflow-y: auto; padding: 20px; }
+        .back-btn { font-size: 24px; cursor: pointer; margin-bottom: 15px; display: inline-block; }
+        .main-img { width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; }
+        .size-box, .color-box { display: flex; gap: 10px; margin: 10px 0 20px; }
+        .opt-btn { border: 1px solid #ddd; padding: 8px 15px; border-radius: 4px; cursor: pointer; background: white; }
+        .opt-btn.active { border-color: var(--primary); color: var(--primary); background: #f0f5ff; font-weight: bold; }
+        .out-of-stock { color: red; font-weight: bold; display: none; margin: 10px 0; }
 
-        /* Detail Overlay Modal */
-        .detail-modal { display: none; position: fixed; z-index: 2001; left: 0; top: 0; width: 100%; height: 100%; background: white; overflow-y: auto; padding: 20px; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        .close-detail { font-size: 30px; position: absolute; top: 10px; left: 15px; cursor: pointer; color: #333; }
+        /* Order Sidebar/Footer */
+        .order-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 2005; }
+        .order-now-btn { background: var(--orange); color: white; border: none; padding: 12px 30px; font-weight: bold; border-radius: 2px; cursor: pointer; font-size: 16px; }
 
-        .detail-container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1000px; margin: 40px auto; }
-        .detail-images { flex: 1; min-width: 300px; }
-        .main-img { width: 100%; border-radius: 10px; border: 1px solid #ddd; }
-        .thumb-row { display: flex; gap: 10px; margin-top: 10px; overflow-x: auto; }
-        .thumb { width: 60px; height: 60px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; object-fit: cover; }
-
-        .detail-info { flex: 1; min-width: 300px; }
-        .option-title { font-size: 14px; font-weight: bold; margin: 15px 0 8px; }
-        .size-box, .color-box { display: flex; gap: 10px; }
-        .size-btn, .color-btn { border: 1px solid #ddd; padding: 8px 15px; cursor: pointer; border-radius: 4px; font-size: 14px; background: white; }
-        .size-btn.active, .color-btn.active { border-color: var(--primary); color: var(--primary); background: #f0f5ff; }
-        .color-btn { width: 30px; height: 30px; border-radius: 50%; padding: 0; }
-
-        .desc-text { font-size: 14px; color: #666; line-height: 1.6; margin: 10px 0; }
-        .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: white; padding: 15px; display: flex; gap: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
-        .buy-now { background: var(--orange); color: white; flex: 1; border: none; padding: 15px; font-weight: bold; cursor: pointer; border-radius: 4px; }
-
-        /* Payment Modal (Timer) */
-        .pay-modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .pay-content { background: white; width: 90%; max-width: 380px; margin: 50px auto; border-radius: 10px; text-align: center; padding: 20px; position: relative; }
-        .qr-box { border: 1px solid #eee; padding: 10px; width: 220px; margin: 15px auto; position: relative; }
-        .timer { color: #d32f2f; font-weight: bold; margin-bottom: 10px; }
-        .wa-btn { background: #25D366; color: white; text-decoration: none; display: block; padding: 12px; border-radius: 5px; font-weight: bold; margin-top: 15px; }
-
-        @media (max-width: 600px) { .container { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
+        /* Payment Modal */
+        .pay-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; }
+        .pay-content { background: white; width: 90%; max-width: 380px; margin: 50px auto; border-radius: 8px; padding: 20px; text-align: center; }
+        .timer { font-size: 22px; color: red; font-weight: bold; margin-bottom: 10px; }
+        .price-breakdown { text-align: left; background: #f9f9f9; padding: 10px; margin: 10px 0; border-radius: 4px; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div class="navbar"><div class="logo">Chartcart Store</div></div>
 
-    <div class="container" id="grid"></div>
+    <div class="container" id="productGrid"></div>
 
-    <div id="detailModal" class="detail-modal">
-        <span class="close-detail" onclick="closeDetail()">&larr;</span>
-        <div class="detail-container">
-            <div class="detail-images">
-                <img id="mainImg" class="main-img" src="">
-                <div class="thumb-row" id="thumbRow"></div>
-            </div>
-            <div class="detail-info">
-                <h2 id="detName">Product Name</h2>
-                <p id="detPrice" style="font-size:24px; font-weight:bold; margin:10px 0;"></p>
-                <hr>
-                
-                <div class="option-title">SELECT SIZE</div>
-                <div class="size-box">
-                    <button class="size-btn active">M</button>
-                    <button class="size-btn">L</button>
-                    <button class="size-btn">XL</button>
-                    <button class="size-btn">XXL</button>
-                </div>
+    <div id="detailPage" class="detail-page">
+        <div class="back-btn" onclick="closeDetail()">← Back</div>
+        <img id="detailImg" class="main-img" src="">
+        <h2 id="detailTitle" style="margin-top:15px;"></h2>
+        <p id="detailDesc" style="color:#666; font-size:14px; margin:10px 0;"></p>
+        
+        <p><strong>Select Size:</strong></p>
+        <div class="size-box" id="sizeList"></div>
 
-                <div class="option-title">SELECT COLOR</div>
-                <div class="color-box">
-                    <button class="color-btn active" style="background:black;"></button>
-                    <button class="color-btn" style="background:navy;"></button>
-                    <button class="color-btn" style="background:grey;"></button>
-                </div>
-
-                <div class="option-title">PRODUCT DETAILS</div>
-                <p class="desc-text" id="detDesc"></p>
-                <ul style="font-size: 13px; color: #555; margin-left: 18px;">
-                    <li>100% Premium Material</li>
-                    <li>Breathable Fabric</li>
-                    <li>Easy Return Policy</li>
-                </ul>
-            </div>
+        <p><strong>Select Color:</strong></p>
+        <div class="color-box">
+            <button class="opt-btn active" onclick="selColor('Black', this)">Black</button>
+            <button class="opt-btn" onclick="selColor('White', this)">White</button>
+            <button class="opt-btn" onclick="selColor('Blue', this)">Blue</button>
         </div>
-        <div class="sticky-footer">
-            <button class="buy-now" onclick="openPayment()">PROCEED TO CHECKOUT</button>
+        
+        <p id="stockError" class="out-of-stock">⚠️ This size is Not Available</p>
+    </div>
+
+    <div id="orderFooter" class="order-footer" style="display:none;">
+        <div>
+            <span style="font-size:12px; color:#666;">Total Payable</span>
+            <div id="footerPrice" style="font-size:18px; font-weight:bold;"></div>
         </div>
+        <button class="order-now-btn" onclick="openPayment()">ORDER NOW</button>
     </div>
 
     <div id="payModal" class="pay-modal">
         <div class="pay-content">
-            <h3>Secure UPI Payment</h3>
             <div class="timer" id="timer">05:00</div>
-            <div class="qr-box">
-                <img id="qrImg" src="" style="width:100%">
+            <img id="qrImg" src="" style="width:200px; border:1px solid #ddd;">
+            <div class="price-breakdown">
+                <div style="display:flex; justify-content:space-between;"><span>Item Price:</span><span id="itemP"></span></div>
+                <div style="display:flex; justify-content:space-between;"><span>Delivery Charge:</span><span id="delP">₹40</span></div>
+                <hr style="margin:5px 0;">
+                <div style="display:flex; justify-content:space-between; font-weight:bold;"><span>Total:</span><span id="totalP"></span></div>
             </div>
-            <p style="font-size:14px;">Payable: <strong id="finalPrice"></strong></p>
-            <p style="font-size:11px; color:green; margin-top:5px;">UPI: jamal0841417-1@okhdfcbank</p>
-            <a id="waBtn" href="#" class="wa-btn">Send Screenshot to WhatsApp</a>
-            <button onclick="closePay()" style="margin-top:15px; border:none; background:none; color:red; cursor:pointer;">Cancel</button>
+            <a id="waBtn" href="#" style="background:#25D366; color:white; text-decoration:none; display:block; padding:12px; border-radius:4px; font-weight:bold; margin-top:10px;">Confirm Order on WhatsApp</a>
+            <button onclick="closePay()" style="margin-top:15px; border:none; color:red; cursor:pointer; background:none;">Cancel Payment</button>
         </div>
     </div>
 
     <script>
+        const deliveryCharge = 40;
         const products = [
-            { id:1, name: "Premium Slim Fit Cotton Shirt", price: 899, desc: "100% Pure cotton, perfect for summer wear. Durable and stylish.", imgs: ["https://m.media-amazon.com/images/I/71oT7l9oYLL._SX679_.jpg", "https://m.media-amazon.com/images/I/71TUXG48+fL._SX679_.jpg", "https://m.media-amazon.com/images/I/81D7mGInPGL._SX679_.jpg"] },
-            { id:2, name: "Luxury Round Neck T-Shirt", price: 499, desc: "Soft breathable polyester blend. High quality print.", imgs: ["https://m.media-amazon.com/images/I/51p8K6Yy1VL._SX679_.jpg", "https://m.media-amazon.com/images/I/51r2X7yY8VL._SX679_.jpg"] },
-            { id:3, name: "Classic Blue Denim Jeans", price: 1299, desc: "High quality stretchable denim. Comfortable for all day.", imgs: ["https://m.media-amazon.com/images/I/616xmoXpXPL._SX679_.jpg", "https://m.media-amazon.com/images/I/61NfXpB1+pL._SX679_.jpg"] },
-            // Isi tarah 10 products add kar sakte hain
+            { id: 1, name: "Premium Cotton Slim Shirt", price: 899, desc: "Breathable cotton fabric, perfect for formal and casual wear.", stock: {"M": "https://m.media-amazon.com/images/I/71oT7l9oYLL._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/81D7mGInPGL._SX679_.jpg", "XL": "", "XXL": "https://m.media-amazon.com/images/I/716pv6m3SXL._SX679_.jpg"} },
+            { id: 2, name: "Urban Round Neck T-Shirt", price: 499, desc: "High quality polyester blend. Fast color and shrink proof.", stock: {"M": "https://m.media-amazon.com/images/I/51p8K6Yy1VL._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/51r2X7yY8VL._SX679_.jpg", "XL": "https://m.media-amazon.com/images/I/51r2X7yY8VL._SX679_.jpg"} },
+            { id: 3, name: "Classic Denim Jeans", price: 1299, desc: "Stretchable denim fabric with 5-pocket design.", stock: {"M": "https://m.media-amazon.com/images/I/616xmoXpXPL._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/61NfXpB1+pL._SX679_.jpg", "XL": ""} },
+            { id: 4, name: "Designer Checked Shirt", price: 999, desc: "100% Cotton, soft feel, tailored fit.", stock: {"M": "https://m.media-amazon.com/images/I/71TUXG48+fL._SX679_.jpg", "L": "", "XL": "https://m.media-amazon.com/images/I/71TUXG48+fL._SX679_.jpg"} },
+            { id: 5, name: "Casual Polo T-Shirt", price: 699, desc: "Classic polo collar with premium rib texture.", stock: {"M": "https://m.media-amazon.com/images/I/716pv6m3SXL._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/716pv6m3SXL._SX679_.jpg", "XL": "https://m.media-amazon.com/images/I/716pv6m3SXL._SX679_.jpg"} },
+            { id: 6, name: "Black Formal Trousers", price: 1199, desc: "Slim fit trousers, non-iron fabric for office wear.", stock: {"M": "https://m.media-amazon.com/images/I/51H-i71C+jL._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/51H-i71C+jL._SX679_.jpg"} },
+            { id: 7, name: "Summer Special Kurta", price: 799, desc: "Lucknowi style embroidery on pure cotton.", stock: {"M": "https://m.media-amazon.com/images/I/81D7mGInPGL._SX679_.jpg", "L": ""} },
+            { id: 8, name: "Gym Wear Tracksuit", price: 1599, desc: "Dry-fit material, sweat absorbent and flexible.", stock: {"M": "https://m.media-amazon.com/images/I/71lVwl3q-kL._SX679_.jpg", "XL": "https://m.media-amazon.com/images/I/71lVwl3q-kL._SX679_.jpg"} },
+            { id: 9, name: "Oversized Hiphop Tee", price: 549, desc: "Trendy oversized fit for street style look.", stock: {"L": "https://m.media-amazon.com/images/I/51p8K6Yy1VL._SX679_.jpg", "XL": "https://m.media-amazon.com/images/I/51p8K6Yy1VL._SX679_.jpg"} },
+            { id: 10, name: "Winter Hoodie Jacket", price: 1999, desc: "Fleece lined warm hoodie with front pockets.", stock: {"M": "https://m.media-amazon.com/images/I/61SSVxTSs3L._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/61SSVxTSs3L._SX679_.jpg"} }
         ];
 
-        let selectedProduct = null;
-        const grid = document.getElementById('grid');
+        let curP = null, curSize = "M", curColor = "Black";
 
-        // Render Grid
+        // Grid Render
+        const grid = document.getElementById('productGrid');
         products.forEach(p => {
-            grid.innerHTML += `
-                <div class="product-card" onclick="showDetail(${p.id})">
-                    <img src="${p.imgs[0]}">
-                    <div class="brand-name">Chartcart Exclusive</div>
-                    <div class="p-name">${p.name}</div>
-                    <div class="p-price">₹${p.price}</div>
-                </div>
-            `;
+            let firstImg = Object.values(p.stock).find(img => img !== "") || "";
+            grid.innerHTML += `<div class="p-card" onclick="openDetail(${p.id})"><img src="${firstImg}"><h3>${p.name}</h3><div class="price">₹${p.price}</div></div>`;
         });
 
-        function showDetail(id) {
-            selectedProduct = products.find(x => x.id === id);
-            document.getElementById('mainImg').src = selectedProduct.imgs[0];
-            document.getElementById('detName').innerText = selectedProduct.name;
-            document.getElementById('detPrice').innerText = "₹" + selectedProduct.price;
-            document.getElementById('detDesc').innerText = selectedProduct.desc;
+        function openDetail(id) {
+            curP = products.find(x => x.id === id);
+            document.getElementById('detailTitle').innerText = curP.name;
+            document.getElementById('detailDesc').innerText = curP.desc;
+            document.getElementById('footerPrice').innerText = "₹" + (curP.price + deliveryCharge);
             
-            const thumbRow = document.getElementById('thumbRow');
-            thumbRow.innerHTML = '';
-            selectedProduct.imgs.forEach(img => {
-                thumbRow.innerHTML += `<img class="thumb" src="${img}" onclick="document.getElementById('mainImg').src='${img}'">`;
+            let sizeHTML = '';
+            ["M", "L", "XL", "XXL"].forEach(s => {
+                sizeHTML += `<button class="opt-btn ${s==='M'?'active':''}" onclick="selSize('${s}', this)">${s}</button>`;
             });
-            document.getElementById('detailModal').style.display = 'block';
+            document.getElementById('sizeList').innerHTML = sizeHTML;
+            selSize('M', document.querySelector('.opt-btn'));
+            
+            document.getElementById('detailPage').style.display = 'block';
+            document.getElementById('orderFooter').style.display = 'flex';
         }
 
-        function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+        function selSize(s, btn) {
+            curSize = s;
+            document.querySelectorAll('.size-box .opt-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            let img = curP.stock[s];
+            if(img) {
+                document.getElementById('detailImg').src = img;
+                document.getElementById('stockError').style.display = 'none';
+                document.querySelector('.order-now-btn').disabled = false;
+                document.querySelector('.order-now-btn').style.background = '#fb641b';
+            } else {
+                document.getElementById('detailImg').src = "https://via.placeholder.com/400?text=Not+Available";
+                document.getElementById('stockError').style.display = 'block';
+                document.querySelector('.order-now-btn').disabled = true;
+                document.querySelector('.order-now-btn').style.background = '#ccc';
+            }
+        }
 
-        // Timer and Payment Logic
+        function selColor(c, btn) {
+            curColor = c;
+            document.querySelectorAll('.color-box .opt-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
         let timerInt;
         function openPayment() {
-            const amount = selectedProduct.price;
+            const total = curP.price + deliveryCharge;
             const upiId = "jamal0841417-1@okhdfcbank";
-            const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${amount}&cu=INR`;
+            const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${total}&cu=INR&tn=Order_${curSize}`;
             
             document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-            document.getElementById('finalPrice').innerText = "₹" + amount;
+            document.getElementById('itemP').innerText = "₹" + curP.price;
+            document.getElementById('totalP').innerText = "₹" + total;
             document.getElementById('payModal').style.display = 'block';
 
-            const waMsg = encodeURIComponent(`I want to order ${selectedProduct.name}. Amount: ₹${amount}`);
+            const waMsg = encodeURIComponent(`Naya Order! \nItem: ${curP.name}\nSize: ${curSize}\nColor: ${curColor}\nAmount: ₹${total} (Delivery Inc.)`);
             document.getElementById('waBtn').href = `https://wa.me/919931203143?text=${waMsg}`;
 
             let time = 300;
@@ -174,11 +172,12 @@
             timerInt = setInterval(() => {
                 let m = Math.floor(time/60), s = time%60;
                 document.getElementById('timer').innerText = `${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
-                if(time-- <= 0) { clearInterval(timerInt); alert("Session Expired!"); closePay(); }
+                if(time-- <= 0) { clearInterval(timerInt); closePay(); }
             }, 1000);
         }
 
-        function closePay() { document.getElementById('payModal').style.display='none'; clearInterval(timerInt); }
+        function closeDetail() { document.getElementById('detailPage').style.display = 'none'; document.getElementById('orderFooter').style.display = 'none'; }
+        function closePay() { document.getElementById('payModal').style.display = 'none'; clearInterval(timerInt); }
     </script>
 </body>
 </html>
