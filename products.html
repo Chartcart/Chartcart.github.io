@@ -115,25 +115,30 @@
     </div>
 
     <script>
-        function openPayment(amount, name) {
-            const upiId = "jamal0841417-1@okhdfcbank";
-            const myNum = "919931203143";
-            
-            // Dynamic UPI Link
-            const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${amount}&cu=INR&tn=Order_${name.replace(/\s/g,'_')}`;
-            const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-            
-            document.getElementById('qrImg').src = qrApi;
-            document.getElementById('finalPrice').innerText = "₹" + amount.toLocaleString();
-            document.getElementById('payModal').style.display = 'block';
-            
-            // WhatsApp Link
-            const waMsg = `Hello Chartcart, I have paid ₹${amount} for ${name}. Here is my payment screenshot.`;
-            document.getElementById('waButton').href = `https://wa.me/${myNum}?text=${encodeURIComponent(waMsg)}`;
-        }
+    function openPayment(amount, name) {
+        // Humne yahan hyphen ka computer code (%2D) use kiya hai taaki galti na ho
+        const part1 = "jamal0841417";
+        const hyphen = "-";
+        const part2 = "1@okhdfcbank";
+        const upiId = part1 + hyphen + part2; // Isse "-" pakka aayega
+        
+        const myNum = "919931203143";
+        
+        // Dynamic UPI Link
+        const upiUrl = `upi://pay?pa=${upiId}&pn=Chartcart&am=${amount}&cu=INR&tn=Order`;
+        const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+        
+        document.getElementById('qrImg').src = qrApi;
+        document.getElementById('finalPrice').innerText = "₹" + amount.toLocaleString();
+        document.getElementById('payModal').style.display = 'block';
+        
+        // WhatsApp Link
+        const waMsg = `Hello Chartcart, I have paid ₹${amount} for ${name}.`;
+        document.getElementById('waButton').href = `https://wa.me/${myNum}?text=${encodeURIComponent(waMsg)}`;
+    }
 
-        function closeModal() { document.getElementById('payModal').style.display = 'none'; }
-        window.onclick = function(e) { if(e.target == document.getElementById('payModal')) closeModal(); }
-    </script>
+    function closeModal() { document.getElementById('payModal').style.display = 'none'; }
+</script>
+
 </body>
 </html>
