@@ -3,92 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chartcart | Advanced Store</title>
+    <title>Chartcart | Premium Store</title>
     <style>
-        :root { --primary: #2874f0; --orange: #fb641b; --green: #25D366; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f1f3f6; padding-bottom: 70px; }
+        :root { --primary: #2874f0; --orange: #fb641b; --green: #25D366; --bg: #f1f3f6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg); padding-bottom: 80px; }
 
-        /* Navigation Tabs */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 3000; }
+        /* Navbar */
+        .navbar { background: var(--primary); padding: 15px; color: white; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo { font-size: 20px; font-weight: bold; letter-spacing: 1px; }
+
+        /* Product Grid */
+        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; max-width: 1200px; margin: auto; }
+        .p-card { background: white; border-radius: 8px; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; }
+        .p-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .p-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 6px; }
+        .p-card h3 { font-size: 14px; margin: 8px 0 4px; color: #333; height: 35px; overflow: hidden; }
+        .p-card .price { font-weight: bold; color: #000; font-size: 16px; }
+
+        /* Detail Modal */
+        .detail-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; overflow-y: auto; padding: 20px; }
+        .back-btn { font-size: 24px; cursor: pointer; color: var(--primary); margin-bottom: 15px; display: inline-block; }
+        .main-img { width: 100%; max-height: 350px; object-fit: contain; border-radius: 10px; background: #fff; border: 1px solid #eee; }
+        
+        /* Highlight Logic CSS */
+        .opt-btn { border: 1.5px solid #ddd; padding: 10px 18px; margin: 5px; border-radius: 6px; cursor: pointer; background: white; font-weight: 600; transition: 0.2s; }
+        .opt-btn.active { border-color: var(--primary) !important; color: var(--primary) !important; background: #f0f5ff !important; box-shadow: 0 0 8px rgba(40,116,240,0.2); }
+
+        .tracking-box { background: #e3f2fd; padding: 12px; border-radius: 8px; margin: 15px 0; font-size: 13px; border-left: 5px solid var(--primary); line-height: 1.6; }
+        .order-btn { background: var(--orange); color: white; border: none; padding: 18px; width: 100%; font-weight: bold; border-radius: 8px; margin-top: 20px; cursor: pointer; font-size: 16px; box-shadow: 0 4px 10px rgba(251,100,27,0.3); }
+
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #ddd; z-index: 2500; }
         .nav-item { text-align: center; font-size: 12px; color: #666; cursor: pointer; }
         .nav-item.active { color: var(--primary); font-weight: bold; }
 
-        /* Tracking & Info */
-        .tracking-box { background: #e3f2fd; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 13px; border-left: 4px solid var(--primary); }
-
-        /* General UI */
-        .navbar { background: var(--primary); padding: 15px; color: white; position: sticky; top: 0; z-index: 1000; font-weight: bold; }
-        .container { padding: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .p-card { background: white; padding: 10px; border-radius: 8px; text-align: center; }
-        .p-card img { width: 100%; height: 150px; object-fit: cover; }
-
-        /* Detail & Profile Modals */
-        .full-screen-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2500; overflow-y: auto; padding: 20px; }
-        .opt-btn { border: 1px solid #ddd; padding: 8px 12px; margin: 5px; border-radius: 4px; cursor: pointer; }
-        .opt-btn.active { border-color: var(--primary); background: #f0f5ff; }
-
-        /* Payment/Confirmation */
-        .pay-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 4000; padding: 20px; color: white; text-align: center; }
-        .order-btn { background: var(--orange); color: white; border: none; padding: 15px; width: 100%; font-weight: bold; border-radius: 5px; margin-top: 20px; }
+        /* Payment Modal */
+        .pay-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 4000; padding: 20px; color: white; text-align: center; }
+        .timer { font-size: 32px; color: var(--orange); font-weight: bold; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="navbar" id="headerTitle">Chartcart Official Store</div>
+    <div class="navbar"><div class="logo">CHARTCART</div></div>
 
     <div id="homeSection">
-        <div class="container" id="grid"></div>
+        <div class="container" id="productGrid"></div>
     </div>
 
-    <div id="profileSection" class="full-screen-modal" style="display:none; position: static;">
-        <h2>My Profile</h2>
-        <div style="background: white; padding: 20px; margin-top: 20px; border-radius: 10px;">
-            <p><strong>Name:</strong> Customer</p>
-            <p><strong>Contact:</strong> Not Verified</p>
+    <div id="profileSection" class="detail-page">
+        <h2 style="margin-bottom: 20px;">My Profile</h2>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #eee;">
+            <p><strong>Username:</strong> Customer_User</p>
+            <p><strong>Mobile:</strong> Not Linked</p>
             <hr style="margin: 15px 0;">
-            <h4>My Orders</h4>
-            <p style="color: #888; font-size: 14px; margin-top: 10px;">No recent orders found.</p>
-            <h4 style="margin-top: 20px;">Saved Items</h4>
-            <p style="color: #888; font-size: 14px;">Your wishlist is empty.</p>
+            <h3>Recent Orders</h3>
+            <p style="color: #999; margin-top: 10px;">You haven't placed any orders yet.</p>
         </div>
     </div>
 
-    <div id="detailPage" class="full-screen-modal">
-        <span onclick="closeDetail()" style="font-size: 24px; cursor: pointer;">&larr; Back</span>
-        <img id="detImg" src="" style="width: 100%; border-radius: 10px; margin-top: 15px;">
-        <h2 id="detName"></h2>
+    <div id="detailPage" class="detail-page">
+        <div class="back-btn" onclick="closeDetail()">← Back to Shop</div>
+        <img id="detailImg" class="main-img" src="">
+        <h2 id="detailTitle" style="margin-top:15px; color: #222;"></h2>
         
         <div class="tracking-box">
             🚚 <strong>Fast Delivery:</strong> Expected by <span id="deliveryDate"></span><br>
-            📍 Status: <span style="color: green;">Ready to Dispatch</span>
+            📍 <strong>Current Status:</strong> Ready for Dispatch<br>
+            ⭐ <strong>Quality:</strong> 100% Premium Checked
         </div>
 
         <p><strong>Select Size:</strong></p>
-        <div id="sizeBox"></div>
-
-        <p style="margin-top: 15px;"><strong>Choose Order Type:</strong></p>
-        <div style="display: flex; gap: 10px; margin-top: 5px;">
-            <button class="opt-btn active" id="payOnlineBtn" onclick="setPayMethod('Online')">Online Payment (Fast)</button>
-            <button class="opt-btn" id="payCodBtn" onclick="setPayMethod('COD')">Cash on Delivery</button>
+        <div id="sizeList" style="margin-bottom: 15px;">
+            <button class="opt-btn active" onclick="selSize('M', this)">M</button>
+            <button class="opt-btn" onclick="selSize('L', this)">L</button>
+            <button class="opt-btn" onclick="selSize('XL', this)">XL</button>
         </div>
 
-        <button class="order-btn" onclick="processOrder()">CONFIRM ORDER</button>
-    </div>
-
-    <div id="payModal" class="pay-modal">
-        <div id="timer" style="font-size: 30px; font-weight: bold; color: var(--orange);">05:00</div>
-        <div id="qrContainer">
-            <p>Scan to Pay Now</p>
-            <img id="qrImg" src="" style="width: 250px; background: white; padding: 10px; margin: 20px 0;">
+        <p><strong>Payment Method:</strong></p>
+        <div id="payList">
+            <button class="opt-btn active" onclick="selPay('Online', this)">Online (Instant Confirmation)</button>
+            <button class="opt-btn" onclick="selPay('COD', this)">Cash on Delivery</button>
         </div>
-        <div id="codContainer" style="display: none; padding: 40px 0;">
-            <h2 style="color: var(--green);">✔️ Order Confirmed!</h2>
-            <p>Please pay at the time of delivery.</p>
-        </div>
-        <p>Total: <strong id="totalAmt"></strong></p>
-        <a id="waConfirm" href="#" style="background: var(--green); color: white; text-decoration: none; display: block; padding: 15px; border-radius: 5px; margin-top: 20px; font-weight: bold;">Send Order Details on WhatsApp</a>
-        <button onclick="location.reload()" style="margin-top: 20px; color: white; background: none; border: 1px solid white; padding: 5px 15px;">Close</button>
+        
+        <button class="order-btn" onclick="openPayment()">PROCEED TO ORDER</button>
     </div>
 
     <div class="bottom-nav">
@@ -96,87 +94,104 @@
         <div class="nav-item" onclick="showTab('profile')">👤<br>Profile</div>
     </div>
 
+    <div id="payModal" class="pay-modal">
+        <div class="timer" id="timer">05:00</div>
+        <div id="qrSection">
+            <p style="margin-bottom: 15px;">Scan QR to Pay with any UPI App</p>
+            <img id="qrImg" src="" style="width: 260px; background: white; padding: 10px; border-radius: 12px;">
+        </div>
+        <div id="codSection" style="display:none; padding: 40px 0;">
+            <h2 style="color: var(--green);">Order Received!</h2>
+            <p>Verification call will be sent to you shortly.</p>
+        </div>
+        <p style="margin-top:20px; font-size: 20px;">Total Amount: <strong id="totalPrice"></strong></p>
+        <a id="waButton" href="#" style="background: var(--green); color: white; text-decoration: none; display: block; padding: 16px; border-radius: 8px; margin-top: 20px; font-weight: bold; font-size: 16px;">Confirm Order on WhatsApp</a>
+        <button onclick="location.reload()" style="margin-top: 20px; background: none; border: 1px solid #fff; color: #fff; padding: 8px 20px; border-radius: 5px;">Cancel</button>
+    </div>
+
     <script>
+        const upiId = "jamal0841417-1@okhdfcbank";
         const products = [
-            { id: 1, name: "Cotton Slim Shirt", price: 899, stock: {"M": "https://m.media-amazon.com/images/I/71oT7l9oYLL._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/81D7mGInPGL._SX679_.jpg"} },
-            { id: 2, name: "Urban T-Shirt", price: 499, stock: {"M": "https://m.media-amazon.com/images/I/51p8K6Yy1VL._SX679_.jpg", "L": "https://m.media-amazon.com/images/I/51r2X7yY8VL._SX679_.jpg"} }
-            // Yahan 10 products add karein...
+            { id: 1, name: "Premium Cotton Slim Shirt", price: 899, img: "https://m.media-amazon.com/images/I/71oT7l9oYLL._SX679_.jpg" },
+            { id: 2, name: "Urban Round Neck T-Shirt", price: 499, img: "https://m.media-amazon.com/images/I/51p8K6Yy1VL._SX679_.jpg" },
+            { id: 3, name: "Classic Blue Denim Jeans", price: 1299, img: "https://m.media-amazon.com/images/I/616xmoXpXPL._SX679_.jpg" },
+            { id: 4, name: "Noise ColorFit Smartwatch", price: 1499, img: "https://m.media-amazon.com/images/I/61SSVxTSs3L._SX679_.jpg" },
+            { id: 5, name: "boAt Rockerz 450 Headphone", price: 1299, img: "https://m.media-amazon.com/images/I/51waS+-OfxL._SX679_.jpg" },
+            { id: 6, name: "Formal Black Trousers", price: 1199, img: "https://m.media-amazon.com/images/I/51H-i71C+jL._SX679_.jpg" },
+            { id: 7, name: "Luxury Designer Kurta", price: 799, img: "https://m.media-amazon.com/images/I/81D7mGInPGL._SX679_.jpg" },
+            { id: 8, name: "Casual Polo Tee", price: 699, img: "https://m.media-amazon.com/images/I/716pv6m3SXL._SX679_.jpg" },
+            { id: 9, name: "Sporty Summer Shorts", price: 399, img: "https://m.media-amazon.com/images/I/71TUXG48+fL._SX679_.jpg" },
+            { id: 10, name: "Winter Fleece Hoodie", price: 1899, img: "https://m.media-amazon.com/images/I/618bb+06eyL._SX679_.jpg" }
         ];
 
-        let selectedP = null;
-        let selectedSize = "M";
-        let payMethod = "Online";
+        let activeP = null, activeSize = "M", activePay = "Online";
 
-        // Generate Grid
-        const grid = document.getElementById('grid');
+        // Build Grid
+        const grid = document.getElementById('productGrid');
         products.forEach(p => {
-            grid.innerHTML += `<div class="p-card" onclick="openDetail(${p.id})"><img src="${p.stock['M']}"><p>${p.name}</p><strong>₹${p.price}</strong></div>`;
+            grid.innerHTML += `<div class="p-card" onclick="showDetail(${p.id})">
+                <img src="${p.img}"><h3>${p.name}</h3><div class="price">₹${p.price}</div>
+            </div>`;
         });
 
-        function openDetail(id) {
-            selectedP = products.find(x => x.id === id);
-            document.getElementById('detName').innerText = selectedP.name;
-            document.getElementById('detImg').src = selectedP.stock['M'];
+        function showDetail(id) {
+            activeP = products.find(x => x.id === id);
+            document.getElementById('detailImg').src = activeP.img;
+            document.getElementById('detailTitle').innerText = activeP.name;
             
-            // Set Delivery Date (Today + 4 Days)
             let d = new Date(); d.setDate(d.getDate() + 4);
             document.getElementById('deliveryDate').innerText = d.toDateString();
-
-            let sHTML = '';
-            ["M", "L", "XL"].forEach(s => sHTML += `<button class="opt-btn ${s==='M'?'active':''}" onclick="selSize('${s}', this)">${s}</button>`);
-            document.getElementById('sizeBox').innerHTML = sHTML;
             
             document.getElementById('detailPage').style.display = 'block';
         }
 
-        function selSize(s, btn) {
-            selectedSize = s;
-            document.querySelectorAll('#sizeBox .opt-btn').forEach(b => b.classList.remove('active'));
+        // Highlight Logic
+        function selSize(val, btn) {
+            activeSize = val;
+            document.querySelectorAll('#sizeList .opt-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
 
-        function setPayMethod(m) {
-            payMethod = m;
-            document.getElementById('payOnlineBtn').classList.toggle('active', m === 'Online');
-            document.getElementById('payCodBtn').classList.toggle('active', m === 'COD');
+        function selPay(val, btn) {
+            activePay = val;
+            document.querySelectorAll('#payList .opt-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
 
-        function processOrder() {
-            const total = selectedP.price + 40;
-            const upiId = "jamal0841417-1@okhdfcbank";
-            
-            document.getElementById('totalAmt').innerText = "₹" + total;
+        function openPayment() {
+            const total = activeP.price + 40;
+            document.getElementById('totalPrice').innerText = "₹" + total;
             document.getElementById('payModal').style.display = 'block';
 
-            if(payMethod === 'Online') {
-                document.getElementById('qrContainer').style.display = 'block';
-                document.getElementById('codContainer').style.display = 'none';
+            if(activePay === 'Online') {
+                document.getElementById('qrSection').style.display = 'block';
+                document.getElementById('codSection').style.display = 'none';
                 document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent('upi://pay?pa='+upiId+'&pn=Chartcart&am='+total+'&cu=INR')}`;
                 startTimer();
             } else {
-                document.getElementById('qrContainer').style.display = 'none';
-                document.getElementById('codContainer').style.display = 'block';
+                document.getElementById('qrSection').style.display = 'none';
+                document.getElementById('codSection').style.display = 'block';
                 document.getElementById('timer').style.display = 'none';
             }
 
-            // WHATSAPP CONFIRMATION TO YOU
-            const waMsg = encodeURIComponent(`Naya Order Aaya Hai! \nItem: ${selectedP.name} \nSize: ${selectedSize} \nMethod: ${payMethod} \nAmount: ₹${total}`);
-            document.getElementById('waConfirm').href = `https://wa.me/919931203143?text=${waMsg}`;
-        }
-
-        function showTab(tab) {
-            document.getElementById('homeSection').style.display = (tab === 'home' ? 'block' : 'none');
-            document.getElementById('profileSection').style.display = (tab === 'profile' ? 'block' : 'none');
-            document.getElementById('headerTitle').innerText = (tab === 'home' ? 'Chartcart Store' : 'My Profile');
+            const waMsg = encodeURIComponent(`NEW ORDER!\nItem: ${activeP.name}\nSize: ${activeSize}\nPayment: ${activePay}\nTotal: ₹${total}`);
+            document.getElementById('waButton').href = `https://wa.me/919931203143?text=${waMsg}`;
         }
 
         function startTimer() {
-            let time = 300;
+            let t = 300;
             let int = setInterval(() => {
-                let m = Math.floor(time/60), s = time%60;
+                let m = Math.floor(t/60), s = t%60;
                 document.getElementById('timer').innerText = `${m}:${s<10?'0':''}${s}`;
-                if(time-- <= 0) clearInterval(int);
+                if(t-- <= 0) { clearInterval(int); location.reload(); }
             }, 1000);
+        }
+
+        function showTab(tab) {
+            document.getElementById('homeSection').style.display = tab==='home'?'block':'none';
+            document.getElementById('profileSection').style.display = tab==='profile'?'block':'none';
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
 
         function closeDetail() { document.getElementById('detailPage').style.display = 'none'; }
